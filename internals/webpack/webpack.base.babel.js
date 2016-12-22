@@ -44,6 +44,9 @@ module.exports = (options) => ({
     }, {
       test: /\.(mp4|webm)$/,
       loader: 'url-loader?limit=10000',
+    }, {
+      test: /\.scss$/,
+      loaders: ["style", "css", "sass"]
     }],
   },
   plugins: options.plugins.concat([

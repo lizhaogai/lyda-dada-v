@@ -19,6 +19,8 @@ let StyledLink = styled(Link)`
 `;
 
 
+let appId = '1234';
+
 export default class LydaDataVPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
   componentWillMount() {
@@ -33,9 +35,9 @@ export default class LydaDataVPage extends React.Component { // eslint-disable-l
   render() {
     return (
       <div style={{fontSize: '16px'}}>
-        <DataSource storage={LocalStorage}/>
+        <DataSource appId={appId} storage={LocalStorage}/>
         <div style={{
-          position: 'absolute',
+          position: 'fixed',
           bottom: 0,
           right: 0,
           height: '2em',

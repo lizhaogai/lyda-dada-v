@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import FaDatabase from 'react-icos/lib/fa/database';
 import FaTable from 'react-icos/lib/fa/table';
+import {Draggable} from 'react-drag-and-drop';
 
 let HGroudDiv = styled.div`
     height: 1.75em;
@@ -35,7 +36,9 @@ let StyledA = styled.a`
     outline: 0;
     
     &:hover {
+      color:#949aa2;
       cursor:pointer;
+      text-decoration: none;
     } 
 `;
 
@@ -123,14 +126,16 @@ export default class DataSourceSidebar extends React.Component { // eslint-disab
           <StyledUl>
             {
               this.props.data.map((_data, index) => {
-                return <StyledLi key={'StyledLi' + index} onClick={() => {
-                  if (this.props.onSelect) {
-                    this.props.onSelect(_data);
-                  }
-                }}>
-                  <Icon />
-                  <StyleCA>{_data.title || _data.name}</StyleCA>
-                </StyledLi>
+                return <Draggable type="collection" key={'StyledLi' + index} data={JSON.stringify(_data)}>
+                  <StyledLi onClick={() => {
+                    if (this.props.onSelect) {
+                      this.props.onSelect(_data);
+                    }
+                  }}>
+                    <Icon />
+                    <StyleCA>{_data.title || _data.name}</StyleCA>
+                  </StyledLi>
+                </Draggable>
               })
             }
           </StyledUl>
@@ -146,5 +151,7 @@ DataSourceSidebar.propTypes = {
   title: React.PropTypes.string,
   height: React.PropTypes.string,
   onSelect: React.PropTypes.func,
-  onAdd: React.PropTypes.func
+  selectedId: React.PropTypes.string,
+  onAdd: React.PropTypes.func,
+  on: React.PropTypes.func
 };

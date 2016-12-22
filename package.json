@@ -197,6 +197,8 @@
     "react": "15.3.2",
     "react-bootstrap": "^0.30.7",
     "react-dom": "15.3.2",
+    "react-drag-and-drop": "^2.2.0",
+    "react-grid-layout": "^0.13.9",
     "react-helmet": "3.1.0",
     "react-icons": "^2.2.1",
     "react-intl": "2.1.5",
@@ -281,6 +283,7 @@
     "webpack-hot-middleware": "2.13.1",
     "react-icos": "^2.2.2",
     "moment": "^2.17.1",
-    "react-formio": "^0.14.2"
+    "node-sass": "^3.7.0",
+    "sass-loader": "^3.2.0"
   }
 }

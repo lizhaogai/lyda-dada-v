@@ -3,7 +3,6 @@ import uid from 'node-uuid';
 export default {
 
 
-
   Connection: {
     save: function (data) {
       if (!data.id) {
@@ -32,7 +31,7 @@ export default {
       });
 
     },
-    get: function () {
+    get: function (appId) {
       return new Promise((resolve, reject) => {
         let localData = localStorage['connections'];
         if (localData) {
@@ -46,10 +45,10 @@ export default {
     }
   },
   Collection: {
-    get: function (id) {
+    get: function (connectId) {
       let collections = [].concat(_collections);
       collections.map((collection) => {
-        collection.connectionId = id;
+        collection.connectionId = connectId;
       });
 
       return new Promise((resolve) => {
