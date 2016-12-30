@@ -45,6 +45,15 @@ export default class CollectionsRelation extends React.Component {
     this.setState({engine: engine});
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log(111);
+    if (nextProps.dataModels) {
+      let model = GenerateNodesAndLinksr(nextProps.dataModels);
+      this.state.engine.loadModel(model);
+      this.state.engine.forceUpdate();
+    }
+  }
+
   render() {
     return (
       <CanvasWidget
@@ -72,7 +81,9 @@ function GenerateNodesAndLinksr(layer) {
     return {nodes: [], links: []};
   }
 
-  layer = layer || _layer;
+  layer.schema.resources = layer.schema.resources || [];
+  layer.schema.joins = layer.schema.joins || [];
+
   let resourceTargetJoins = {};
   layer.schema.resources.map((resource) => {
     resourceTargetJoins[resource.id] = 0;

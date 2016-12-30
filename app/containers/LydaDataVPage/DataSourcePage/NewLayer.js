@@ -8,10 +8,31 @@ import {Droppable} from 'react-drag-and-drop';
 
 export default class NewLayer extends React.Component {
 
+  state = {
+    layer: {}
+  };
+
+  componentWillMount() {
+  }
+
 
   onDrop(data) {
     data = JSON.parse(data.collection);
-    console.log(data);
+    console.log(data)
+    this.context.client['Resource'].get(data.connectionId, data.name).then((resource) => {
+      let layer = this.state.layer;
+      let resources = (layer.schema && layer.schema.resources) || [];
+
+      let found = resources.find((item) => {
+        return item.id == resource.id;
+      });
+      if (!found) {
+        resources.push(resource);
+        layer.schema = layer.schema || {};
+        layer.schema.resources = resources;
+        this.setState({layer: layer});
+      }
+    });
   }
 
   render() {
@@ -25,7 +46,7 @@ export default class NewLayer extends React.Component {
         this.onDrop(data)
       }}>
       <CollectionsRelation
-        dataModels={{}}
+        dataModels={this.state.layer}
         onCollectionRemove={(id) => {
           console.log(id);
         }}
@@ -44,4 +65,10 @@ NewLayer.propTypes = {
   storage: React.PropTypes.object,
   appId: React.PropTypes.string
 };
+
+NewLayer.contextTypes = {
+  router: React.PropTypes.object,
+  client: React.PropTypes.object
+};
+
 

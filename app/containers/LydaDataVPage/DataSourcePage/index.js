@@ -1,6 +1,5 @@
 import React from 'react';
 import {Button, Modal} from 'react-bootstrap';
-import {Grid, Row, Col} from 'react-bootstrap';
 import DataSourceSidebar from './DataSourceSidebar';
 import ConnectionForms from './ConnectionForms';
 import styled from 'styled-components';
@@ -8,6 +7,7 @@ import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import 'storm-react-diagrams/src/sass.scss';
 import './cr.scss'
+import Layers from './layers';
 
 let LayerDiv = styled.div`
     border-radius: 3px;
@@ -32,7 +32,7 @@ export default class DataSourcePage extends React.Component {
   }
 
   fetchConnections() {
-    this.props.storage['Connection'].get(this.props.appId).then((connections) => {
+    this.context.client['Connection'].get(this.props.appId).then((connections) => {
       if (connections.length == 1) {
         this.setState({selectedConnectId: connections[0].id});
         this.fetchCollections(connections[0].id);
@@ -46,7 +46,7 @@ export default class DataSourcePage extends React.Component {
   }
 
   fetchCollections(id) {
-    this.props.storage['Collection'].get(id).then((collections) => {
+    this.context.client['Collection'].get(id).then((collections) => {
       this.setState({collections: collections});
     })
   }
@@ -127,26 +127,7 @@ export default class DataSourcePage extends React.Component {
         }}>
           数据视图/{this.state.title}
         </div>
-        {!this.props.children ? <Grid style={{
-          right: 0,
-          marginTop: '2.25em',
-          paddingLeft: '8.5em',
-        }}>
-          <Row className="show-grid">
-            {
-              this.state.layers.map((layer) => {
-                return <Col xs={12} md={3} style={{padding: '0.75em 1.5em'}}>
-                  <LayerDiv>{layer.name}</LayerDiv>
-                </Col>
-              })
-            }
-            <Col xs={12} md={3} style={{padding: '0.75em 1.5em'}}>
-              <LayerDiv onClick={() => {
-                console.log(this.props);
-              }}>+</LayerDiv>
-            </Col>
-          </Row>
-        </Grid> : this.props.children}
+        {!this.props.children ? <Layers layers={this.state.layers}/> : this.props.children}
 
         <Modal show={this.state && this.state.showConnectModal} onHide={this.closeConnectModal}>
           <Modal.Header closeButton>
@@ -171,6 +152,12 @@ export default class DataSourcePage extends React.Component {
 
 DataSourcePage.propTypes = {
   storage: React.PropTypes.object,
-  appId: React.PropTypes.string
+  appId: React.PropTypes.string,
+  children: React.PropTypes.node,
+};
+
+DataSourcePage.contextTypes = {
+  router: React.PropTypes.object,
+  client: React.PropTypes.object
 };
 

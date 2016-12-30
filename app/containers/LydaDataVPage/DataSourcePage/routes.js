@@ -7,14 +7,22 @@ const errorLoading = (err) => {
 };
 
 module.exports = {
-  path: '/data_v',
-  name: 'data_v',
+  path: '/data_v/dataSource',
+  name: 'dataSource',
   getComponent(nextState, cb) {
-    System.import('./index')
+    System.import('./')
       .then(loadModule(cb))
       .catch(errorLoading);
   },
   childRoutes: [
-    require('./DataSourcePage/routes')
+    {
+      path: '/data_v/dataSource/newLayer',
+      name: 'newLayer',
+      getComponent(nextState, cb) {
+        System.import('./NewLayer')
+          .then(loadModule(cb))
+          .catch(errorLoading);
+      },
+    }
   ]
 };

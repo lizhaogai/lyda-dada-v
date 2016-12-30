@@ -1,7 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
 import styled from 'styled-components';
-import DataSource from './DataSourcePage'
 import LocalStorage from './LocalStorage'
 
 let StyledLink = styled(Link)`
@@ -33,9 +32,10 @@ export default class LydaDataVPage extends React.Component { // eslint-disable-l
   }
 
   render() {
+    console.log(111);
     return (
       <div style={{fontSize: '16px'}}>
-        <DataSource appId={appId} storage={LocalStorage}/>
+        {this.props.children}
         <div style={{
           position: 'fixed',
           bottom: 0,
