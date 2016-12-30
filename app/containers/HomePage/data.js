@@ -1,0 +1,209 @@
+var datas = [{
+    "_id": "585cd25b58eddc02e51f8780",
+    "modified": "2016-12-24T03:06:17.867Z",
+    "data": {
+        "team": "HkXwy_fNx",
+        "org": "c2307910-95d8-11e6-b22a-b9a1ce20a60e",
+        "account": "ry9g9Damg",
+        "customerAccountId": "584ff40564a30a186299db4b",
+        "date": "2016-12-23T07:29:31.409Z",
+        "accountNickname": "xiaolian22",
+        "accountId": "xiaolian11",
+        "consumption": 0,
+        "plan": 101,
+        "materialCount": 1,
+        "accountUsername": "ixoafj",
+        "materialPlan": 1
+    },
+    "form": "584fef8e64a30a186299db42",
+    "created": "2016-12-23T07:29:31.692Z",
+    "externalIds": [],
+    "access": [],
+    "roles": [],
+    "owner": "58039167dbbb235b08d654ee"
+}, {
+    "_id": "585de61c58eddc02e51f8785",
+    "modified": "2016-12-24T03:06:10.532Z",
+    "data": {
+        "team": "HkXwy_fNx",
+        "org": "c2307910-95d8-11e6-b22a-b9a1ce20a60e",
+        "account": "ry9g9Damg",
+        "customerAccountId": "5850c00dcc26b604413c5c1d",
+        "date": "2016-12-24T03:06:03.035Z",
+        "accountNickname": "拖拖拖",
+        "accountId": "我的",
+        "consumption": 11,
+        "plan": 11,
+        "materialCount": 12,
+        "accountUsername": "舒服舒服",
+        "materialPlan": 23
+    },
+    "form": "584fef8e64a30a186299db42",
+    "created": "2016-12-24T03:06:04.336Z",
+    "externalIds": [],
+    "access": [],
+    "roles": [],
+    "owner": "58039167dbbb235b08d654ee"
+}, {
+    "_id": "585de62358eddc02e51f8786",
+    "modified": "2016-12-24T03:06:13.663Z",
+    "data": {
+        "team": "HkXwy_fNx",
+        "org": "c2307910-95d8-11e6-b22a-b9a1ce20a60e",
+        "account": "ry9g9Damg",
+        "date": "2016-12-24T03:06:11.131Z",
+        "accountNickname": "xiaolian22",
+        "accountUsername": "ixoafj",
+        "customerAccountId": "584ff40564a30a186299db4b",
+        "consumption": 2,
+        "plan": 3,
+        "materialPlan": 4,
+        "materialCount": 5
+    },
+    "form": "584fef8e64a30a186299db42",
+    "created": "2016-12-24T03:06:11.321Z",
+    "externalIds": [],
+    "access": [],
+    "roles": [],
+    "owner": "58039167dbbb235b08d654ee"
+}, {
+    "_id": "585de62658eddc02e51f8787",
+    "modified": "2016-12-24T03:06:15.556Z",
+    "data": {
+        "team": "HkXwy_fNx",
+        "org": "c2307910-95d8-11e6-b22a-b9a1ce20a60e",
+        "account": "ry9g9Damg",
+        "date": "2016-12-23T03:06:14.133Z",
+        "accountNickname": "拖拖拖",
+        "accountUsername": "舒服舒服",
+        "customerAccountId": "5850c00dcc26b604413c5c1d",
+        "plan": 2,
+        "materialCount": 2
+    },
+    "form": "584fef8e64a30a186299db42",
+    "created": "2016-12-24T03:06:14.384Z",
+    "externalIds": [],
+    "access": [],
+    "roles": [],
+    "owner": "58039167dbbb235b08d654ee"
+}, {
+    "_id": "585de63558eddc02e51f8789",
+    "modified": "2016-12-24T03:06:35.595Z",
+    "data": {
+        "team": "HkXwy_fNx",
+        "org": "c2307910-95d8-11e6-b22a-b9a1ce20a60e",
+        "account": "ry9g9Damg",
+        "customerAccountId": "585de63558eddc02e51f8788",
+        "date": "2016-12-24T03:06:29.566Z",
+        "accountNickname": "好人的心情",
+        "accountId": "sfsfsfsfa",
+        "consumption": 111,
+        "plan": 222,
+        "materialCount": 1111,
+        "accountUsername": "好人的心情",
+        "materialPlan": 333
+    },
+    "form": "584fef8e64a30a186299db42",
+    "created": "2016-12-24T03:06:29.668Z",
+    "externalIds": [],
+    "access": [],
+    "roles": [],
+    "owner": "58039167dbbb235b08d654ee"
+}, {
+    "_id": "585de63c58eddc02e51f878a",
+    "modified": "2016-12-24T03:06:39.980Z",
+    "data": {
+        "team": "HkXwy_fNx",
+        "org": "c2307910-95d8-11e6-b22a-b9a1ce20a60e",
+        "account": "ry9g9Damg",
+        "date": "2016-12-23T03:06:36.291Z",
+        "accountNickname": "好人的心情",
+        "accountUsername": "好人的心情",
+        "customerAccountId": "585de63558eddc02e51f8788",
+        "plan": 111,
+        "materialPlan": 202,
+        "materialCount": 333,
+        "consumption": 333
+    },
+    "form": "584fef8e64a30a186299db42",
+    "created": "2016-12-24T03:06:36.505Z",
+    "externalIds": [],
+    "access": [],
+    "roles": [],
+    "owner": "58039167dbbb235b08d654ee"
+}, {
+    "_id": "585de66158eddc02e51f878c",
+    "modified": "2016-12-24T03:07:18.395Z",
+    "data": {
+        "team": "HkXwy_fNx",
+        "org": "c2307910-95d8-11e6-b22a-b9a1ce20a60e",
+        "account": "ry9g9Damg",
+        "customerAccountId": "585de66158eddc02e51f878b",
+        "date": "2016-12-24T03:07:13.521Z",
+        "accountNickname": "可爱的小绵羊",
+        "accountId": "234",
+        "consumption": 112,
+        "plan": 222,
+        "materialCount": 21,
+        "accountUsername": "可爱的小绵羊",
+        "materialPlan": 222
+    },
+    "form": "584fef8e64a30a186299db42",
+    "created": "2016-12-24T03:07:13.627Z",
+    "externalIds": [],
+    "access": [],
+    "roles": [],
+    "owner": "58039167dbbb235b08d654ee"
+}, {
+    "_id": "585de66758eddc02e51f878d",
+    "modified": "2016-12-24T03:07:21.455Z",
+    "data": {
+        "team": "HkXwy_fNx",
+        "org": "c2307910-95d8-11e6-b22a-b9a1ce20a60e",
+        "account": "ry9g9Damg",
+        "date": "2016-12-23T03:07:19.102Z",
+        "accountNickname": "可爱的小绵羊",
+        "accountUsername": "可爱的小绵羊",
+        "customerAccountId": "585de66158eddc02e51f878b",
+        "consumption": 11,
+        "materialPlan": 33,
+        "materialCount": 44
+    },
+    "form": "584fef8e64a30a186299db42",
+    "created": "2016-12-24T03:07:19.315Z",
+    "externalIds": [],
+    "access": [],
+    "roles": [],
+    "owner": "58039167dbbb235b08d654ee"
+}, {
+    "_id": "585de69158eddc02e51f8793",
+    "modified": "2016-12-24T03:08:11.938Z",
+    "data": {
+        "team": "HkXwy_fNx",
+        "org": "c2307910-95d8-11e6-b22a-b9a1ce20a60e",
+        "account": "ry9g9Damg",
+        "customerAccountId": "585de69158eddc02e51f8792",
+        "date": "2016-12-23T03:07:22.416Z",
+        "accountNickname": "安全套的生产股市",
+        "accountId": "TTTT",
+        "consumption": 234,
+        "plan": 12,
+        "materialCount": 112,
+        "accountUsername": "安全套的生产股市",
+        "materialPlan": 32
+    },
+    "form": "584fef8e64a30a186299db42",
+    "created": "2016-12-24T03:08:01.323Z",
+    "externalIds": [],
+    "access": [],
+    "roles": [],
+    "owner": "58039167dbbb235b08d654ee"
+}];
+
+module.exports = function (metadatas) {
+    return datas.map((item) => {
+        return metadatas.map((metaItem) => {
+            return item[metaItem.caption] || item.data[metaItem.caption];
+        })
+    });
+};

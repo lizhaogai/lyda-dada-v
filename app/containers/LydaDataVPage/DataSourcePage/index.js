@@ -6,13 +6,8 @@ import ConnectionForms from './ConnectionForms';
 import styled from 'styled-components';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
-import 'components/CollectionRelation/sass.scss';
-var Canvas = require("components/CollectionRelation/widgets/CanvasWidget");
-var BasicNodeWidget = require("components/CollectionRelation/widgets/BasicNodeWidget");
-
-import {Droppable} from 'react-drag-and-drop';
-
-import _ from 'lodash';
+import 'storm-react-diagrams/src/sass.scss';
+import './cr.scss'
 
 let LayerDiv = styled.div`
     border-radius: 3px;
@@ -26,51 +21,10 @@ let LayerDiv = styled.div`
     }
 `;
 
-function generateLayout(title) {
-  var y = Math.ceil(Math.random() * 4) + 1;
-  return {
-    x: 5,
-    y: 0,
-    w: 1,
-    h: 2,
-    i: title
-  };
-}
-
-let Engine = require("components/CollectionRelation/Engine")();
-
-let model = {links: [], nodes: []};
-
-Engine.registerNodeFactory({
-  type: 'action',
-  generateModel: function (model) {
-    return React.createElement(BasicNodeWidget, {
-      removeAction: function () {
-        Engine.removeNode(model);
-      },
-      color: model.data.color,
-      node: model,
-      name: model.data.name,
-      inPorts: model.data.inVariables,
-      outPorts: model.data.outVariables
-    });
-  }
-});
-
-Engine.loadModel(model);
-
 export default class DataSourcePage extends React.Component {
 
-  static defaultProps = {
-    className: "layout",
-    rowHeight: 30,
-    cols: {lg: 3, md: 3, sm: 3, xs: 2, xxs: 2},
-  };
-
   state = {
-    connections: [], collections: [], layers: [], mode: 'LayerList', currentBreakpoint: 'lg',
-    mounted: false,
-    layouts: {lg: []},
+    layers: []
   };
 
   componentWillMount() {
@@ -122,22 +76,6 @@ export default class DataSourcePage extends React.Component {
     }
   }
 
-  generateDOM() {
-    return _.map(this.state.layouts.lg, function (l, i) {
-      return (
-        <div key={i} className={l.static ? 'static' : ''}>
-          {l.static ?
-            <span className="text" title="This item is static and cannot be removed or resized.">Static - {i}</span>
-            : <span className="text">{i}</span>
-          }
-        </div>);
-    });
-  }
-
-  onDrop(data) {
-    data = JSON.parse(data.collection);
-    console.log(data);
-  }
 
   render() {
     let ConnectionForm = ConnectionForms['formio'];
@@ -189,10 +127,10 @@ export default class DataSourcePage extends React.Component {
         }}>
           数据视图/{this.state.title}
         </div>
-        {this.state.mode == 'LayerList' ? <Grid style={{
+        {!this.props.children ? <Grid style={{
           right: 0,
           marginTop: '2.25em',
-          marginLeft: '14em',
+          paddingLeft: '8.5em',
         }}>
           <Row className="show-grid">
             {
@@ -204,41 +142,11 @@ export default class DataSourcePage extends React.Component {
             }
             <Col xs={12} md={3} style={{padding: '0.75em 1.5em'}}>
               <LayerDiv onClick={() => {
-                this.setState({'mode': 'AddLayer', title: '添加Layer'});
+                console.log(this.props);
               }}>+</LayerDiv>
             </Col>
           </Row>
-        </Grid> : ''}
-
-        {
-          this.state.mode == 'AddLayer' ? <Droppable
-            types={['collection']}
-            onDrop={(data) => {
-              this.onDrop(data)
-            }}>
-            <div style={{
-              marginLeft: '14em',
-              right: 0,
-              marginTop: '2.5em',
-              height: '100%',
-              overflowY: 'scroll',
-              marginBottom: '2em',
-              background: '#eee',
-              minHeight: '15em'
-            }}>
-              <Canvas
-                style={{
-                  width: '100%',
-                  minHeight: '30em',
-                  background: 'rgb(60, 60, 60)',
-                  display: 'flex'
-                }}
-                engine={Engine}
-              />
-            </div>
-          </Droppable> : ''
-        }
-
+        </Grid> : this.props.children}
 
         <Modal show={this.state && this.state.showConnectModal} onHide={this.closeConnectModal}>
           <Modal.Header closeButton>
@@ -263,7 +171,6 @@ export default class DataSourcePage extends React.Component {
 
 DataSourcePage.propTypes = {
   storage: React.PropTypes.object,
-  appId: React.PropTypes.string,
-  onLayoutChange: React.PropTypes.func
+  appId: React.PropTypes.string
 };
 

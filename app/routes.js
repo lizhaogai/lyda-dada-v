@@ -47,28 +47,7 @@ export default function createRoutes(store) {
           .catch(errorLoading);
       },
     },
-    {
-      path: 'data_v',
-      name: 'data_v',
-      getComponent(nextState, cb) {
-        System.import('containers/LydaDataVPage')
-          .then(loadModule(cb))
-          .catch(errorLoading);
-      },
-      getChildRoutes(){
-        return [
-          {
-            path: 'dataSource',
-            name: 'dataSource',
-            getComponent(nextState, cb) {
-              System.import('containers/LydaDataVPage/DataSourcePage')
-                .then(loadModule(cb))
-                .catch(errorLoading);
-            },
-          },
-        ]
-      }
-    },
+    require('containers/LydaDataVPage/routes'),
     {
       path: '*',
       name: 'notfound',

@@ -2,7 +2,6 @@ import uid from 'node-uuid';
 
 export default {
 
-
   Connection: {
     save: function (data) {
       if (!data.id) {
@@ -55,18 +54,428 @@ export default {
         resolve(collections);
       });
     }
+  },
+  Resource: {
+    get: function (connectId, resourceName) {
+      let resource = null;
+      resources.map((item) => {
+        if (item.name == resourceName) {
+          resource = item;
+        }
+      });
+
+      return new Promise((resolve) => {
+        resolve(resource);
+      });
+    }
   }
 }
 
+let resources = [
+  {
+    "id": "58039303992ed55d24675d90",
+    "name": "SalesPerformance",
+    "columns": [
+      {
+        "name": "org",
+        "type": "String",
+        "label": "org"
+      },
+      {
+        "name": "team",
+        "type": "String",
+        "label": "team"
+      },
+      {
+        "name": "account",
+        "type": "String",
+        "label": "account"
+      },
+      {
+        "name": "date",
+        "type": "Date",
+        "label": "日期（Date）"
+      },
+      {
+        "name": "invitations",
+        "type": "Number",
+        "label": "邀约数（Invitations）"
+      },
+      {
+        "name": "visits",
+        "type": "Number",
+        "label": "拜访数（Visits）"
+      },
+      {
+        "name": "contracts",
+        "type": "Number",
+        "label": "签单数（Contracts）"
+      },
+      {
+        "name": "feeservice",
+        "type": "Number",
+        "label": "服务费总金额（FeeService）"
+      },
+      {
+        "name": "feerecharge",
+        "type": "Number",
+        "label": "充值费总金额（FeeRecharge)"
+      },
+      {
+        "name": "renewalrecharge",
+        "type": "Number",
+        "label": "续费（RenewalRecharge）"
+      }
+    ],
+    "connectionId": "be5220d0-9922-11e6-b58f-fb26be8d31a3"
+  }, {
+    "id": "580e09885e48cd14b5d86c93",
+    "name": "SalesMonthlyPlan",
+    "columns": [
+      {
+        "name": "org",
+        "type": "String",
+        "label": "部门"
+      },
+      {
+        "name": "monthly",
+        "type": "Date",
+        "label": "月度"
+      },
+      {
+        "name": "contracts",
+        "type": "Number",
+        "label": "签单量"
+      },
+      {
+        "name": "amount",
+        "type": "Number",
+        "label": "签单额"
+      }
+    ],
+    "connectionId": "be5220d0-9922-11e6-b58f-fb26be8d31a3"
+  }, {
+    "id": "582914d7b442da043b0819f1",
+    "name": "SalesTeamMonthlyPlan",
+    "columns": [
+      {
+        "name": "org",
+        "type": "String",
+        "label": "org"
+      },
+      {
+        "name": "team",
+        "type": "String",
+        "label": "team"
+      },
+      {
+        "name": "account",
+        "type": "String",
+        "label": "account"
+      },
+      {
+        "name": "monthly",
+        "type": "Date",
+        "label": "月度"
+      },
+      {
+        "name": "contracts",
+        "type": "Number",
+        "label": "签单量"
+      },
+      {
+        "name": "amount",
+        "type": "Number",
+        "label": "签单金额"
+      }
+    ],
+    "connectionId": "be5220d0-9922-11e6-b58f-fb26be8d31a3"
+  }, {
+    "id": "582915d0b442da043b0819f3",
+    "name": "SalesMarquee",
+    "columns": [
+      {
+        "name": "org",
+        "type": "String",
+        "label": "org"
+      },
+      {
+        "name": "team",
+        "type": "String",
+        "label": "team"
+      },
+      {
+        "name": "account",
+        "type": "String",
+        "label": "account"
+      },
+      {
+        "name": "date",
+        "type": "String",
+        "label": "date"
+      },
+      {
+        "name": "content",
+        "type": "String",
+        "label": "通知内容"
+      }
+    ],
+    "connectionId": "be5220d0-9922-11e6-b58f-fb26be8d31a3"
+  }, {
+    "id": "58468389be58b80ed0e37ac4",
+    "name": "customer",
+    "columns": [
+      {
+        "name": "org",
+        "type": "String",
+        "label": "org"
+      },
+      {
+        "name": "team",
+        "type": "String",
+        "label": "team"
+      },
+      {
+        "name": "account",
+        "type": "String",
+        "label": "account"
+      },
+      {
+        "name": "name",
+        "type": "String",
+        "label": "客户名称"
+      },
+      {
+        "name": "customerPhone",
+        "type": "String",
+        "label": "客户手机"
+      }
+    ],
+    "connectionId": "be5220d0-9922-11e6-b58f-fb26be8d31a3"
+  }, {
+    "id": "584685babe58b80ed0e37ac6",
+    "name": "Renewals",
+    "columns": [
+      {
+        "name": "org",
+        "type": "String",
+        "label": "org"
+      },
+      {
+        "name": "team",
+        "type": "String",
+        "label": "team"
+      },
+      {
+        "name": "account",
+        "type": "String",
+        "label": "account"
+      },
+      {
+        "name": "date",
+        "type": "Date",
+        "label": "续费日期"
+      },
+      {
+        "name": "renewals",
+        "type": "Number",
+        "label": "续费金额"
+      },
+      {
+        "name": "rebate",
+        "type": "Number",
+        "label": "续费返点"
+      }
+    ],
+    "connectionId": "be5220d0-9922-11e6-b58f-fb26be8d31a3"
+  }, {
+    "id": "584686aabe58b80ed0e37ac8",
+    "name": "InvitationAndVisit",
+    "columns": [
+      {
+        "name": "org",
+        "type": "String",
+        "label": "org"
+      },
+      {
+        "name": "team",
+        "type": "String",
+        "label": "team"
+      },
+      {
+        "name": "account",
+        "type": "String",
+        "label": "account"
+      },
+      {
+        "name": "date",
+        "type": "Date",
+        "label": "汇报日期"
+      },
+      {
+        "name": "invitations",
+        "type": "Number",
+        "label": "邀约数（Invitations）"
+      },
+      {
+        "name": "visits",
+        "type": "Number",
+        "label": "拜访数（Visits）"
+      }
+    ],
+    "connectionId": "be5220d0-9922-11e6-b58f-fb26be8d31a3"
+  }, {
+    "id": "584fee1764a30a186299db40",
+    "name": "PromotionAccount",
+    "columns": [
+      {
+        "name": "org",
+        "type": "String",
+        "label": "org"
+      },
+      {
+        "name": "team",
+        "type": "String",
+        "label": "team"
+      },
+      {
+        "name": "account",
+        "type": "String",
+        "label": "account"
+      },
+      {
+        "name": "accountId",
+        "type": "String",
+        "label": "账号ID"
+      },
+      {
+        "name": "nickname",
+        "type": "String",
+        "label": "昵称"
+      },
+      {
+        "name": "accountName",
+        "type": "String",
+        "label": "账号登陆名"
+      },
+      {
+        "name": "password",
+        "type": "String",
+        "label": "密码"
+      },
+      {
+        "name": "accountType",
+        "type": "String",
+        "label": "账号类型"
+      }
+    ],
+    "connectionId": "be5220d0-9922-11e6-b58f-fb26be8d31a3"
+  }, {
+    "id": "584fef8e64a30a186299db42",
+    "name": "OperationConsumption",
+    "columns": [
+      {
+        "name": "org",
+        "type": "String",
+        "label": "org"
+      },
+      {
+        "name": "team",
+        "type": "String",
+        "label": "team"
+      },
+      {
+        "name": "account",
+        "type": "String",
+        "label": "account"
+      },
+      {
+        "name": "accountNickname",
+        "type": "String",
+        "label": "accountNickname"
+      },
+      {
+        "name": "accountId",
+        "type": "String",
+        "label": "accountId"
+      },
+      {
+        "name": "accountPassword",
+        "type": "String",
+        "label": "accountPassword"
+      },
+      {
+        "name": "accountUsername",
+        "type": "String",
+        "label": "accountUsername"
+      },
+      {
+        "name": "date",
+        "type": "Date",
+        "label": "日期"
+      },
+      {
+        "name": "consumption",
+        "type": "Number",
+        "label": "消耗值"
+      },
+      {
+        "name": "plan",
+        "type": "Number",
+        "label": "计划消耗值"
+      },
+      {
+        "name": "materialCount",
+        "type": "Number",
+        "label": "上线素材数"
+      },
+      {
+        "name": "materialPlan",
+        "type": "Number",
+        "label": "计划上线素材"
+      }
+    ],
+    "connectionId": "be5220d0-9922-11e6-b58f-fb26be8d31a3"
+  }, {
+    "id": "584ff0bc64a30a186299db44",
+    "name": "PromotionAccountToDos",
+    "columns": [
+      {
+        "name": "org",
+        "type": "String",
+        "label": "org"
+      },
+      {
+        "name": "team",
+        "type": "String",
+        "label": "team"
+      },
+      {
+        "name": "account",
+        "type": "String",
+        "label": "account"
+      },
+      {
+        "name": "commitTime",
+        "type": "Date",
+        "label": "提交时间"
+      },
+      {
+        "name": "content",
+        "type": "String",
+        "label": "内容"
+      },
+      {
+        "name": "finished",
+        "type": "Boolean",
+        "label": "是否完成并且关闭"
+      }
+    ],
+    "connectionId": "be5220d0-9922-11e6-b58f-fb26be8d31a3"
+  },
+];
+
 let _collections = [
-  {
-    "title": "User",
-    "name": "user",
-  },
-  {
-    "title": "Admin",
-    "name": "admin",
-  },
   {
     "title": "销售业绩",
     "name": "SalesPerformance",
@@ -115,16 +524,6 @@ let _collections = [
   {
     "title": "推广账号待处理",
     "name": "PromotionAccountToDos",
-    "owner": "58039167dbbb235b08d654ee"
-  },
-  {
-    "title": "运营数据汇报",
-    "name": "OperationData",
-    "owner": "58039167dbbb235b08d654ee"
-  },
-  {
-    "title": "推广账号选择",
-    "name": "PromotionAccountSelector",
     "owner": "58039167dbbb235b08d654ee"
   }
 ];

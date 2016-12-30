@@ -1,0 +1,15 @@
+.storm-flow-canvas .port {
+  background: none;
+}
+
+.storm-flow-canvas .port:hover, .storm-flow-canvas .port.selected {
+  background: none;
+}
+
+.storm-flow-canvas .basic-node {
+  border: none;
+}
+
+.storm-flow-canvas path {
+  stroke: #E7E7E7;
+}
