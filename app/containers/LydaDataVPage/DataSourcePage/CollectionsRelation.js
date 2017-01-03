@@ -46,7 +46,6 @@ export default class CollectionsRelation extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(111);
     if (nextProps.dataModels) {
       let model = GenerateNodesAndLinksr(nextProps.dataModels);
       this.state.engine.loadModel(model);
@@ -60,7 +59,7 @@ export default class CollectionsRelation extends React.Component {
         style={{
           width: '100%',
           height: 400,
-          background: '#f2f2f2',
+          background: '#3c3c3c',
           display: 'flex'
         }}
         engine={this.state.engine}/>
@@ -147,9 +146,9 @@ function generateNodes(resourcesHolder, ids, joins, column) {
       id: resource.id,
       type: 'action',
       data: {
-        color: 'rgb(85, 85, 85)',
-        background: '#E7E7E7',
-        name: resource.name,
+        color: 'rgb(255, 255, 255)',
+        background: 'rgb(50, 50, 50)',
+        name: resource.title || resource.name,
         inVariables: ['in'],
         column: column,
         resource: resource

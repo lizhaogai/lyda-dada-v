@@ -7,7 +7,7 @@ import {Draggable} from 'react-drag-and-drop';
 let HGroudDiv = styled.div`
     height: 1.75em;
     line-height: 1.75em;
-    background: #2e3840;
+    background: rgb(42,42,42);
     padding: 0 0 0 1.25em;
     position: fixed;
     width:14em;
@@ -22,7 +22,7 @@ let StyledH3 = styled.h3`
 `;
 
 let StyledA = styled.a`
-    background: #212932;
+    background: rgb(32,32,32);
     float: right;
     text-align: center;
     line-height: 1.75em;
@@ -53,12 +53,13 @@ let StyledUl = styled.ul`
     margin-bottom: 0;
     margin-left: 0;
     list-style: none;
-    margin: 0 0 0.625em 1.25em;
+    margin: 0 0 0.625em 0em;
 `;
 
 let StyledLi = styled.li`
     position: static;
     clear: both;
+    padding-left: 1.2em;
     line-height:2.25em;
 `;
 
@@ -110,7 +111,7 @@ export default class DataSourceSidebar extends React.Component { // eslint-disab
         minHeight: this.props.height || '33.3333%',
         maxHeight: this.props.height || '33.3333%',
         overflowY: 'scroll',
-        background: '#37414b'
+        background: 'rgb(50, 50, 50)'
       }}>
         <HGroudDiv>
           {

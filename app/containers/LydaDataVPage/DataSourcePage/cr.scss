@@ -7,9 +7,31 @@
 }
 
 .storm-flow-canvas .basic-node {
-  border: none;
 }
 
 .storm-flow-canvas path {
-  stroke: #E7E7E7;
+  stroke: black;
 }
+
+.storm-flow-canvas:hover {
+  cursor: auto;
+}
+
+.storm-flow-canvas .basic-node:hover {
+  cursor: auto;
+}
+
+.node-action {
+  display: none;
+  cursor: pointer;
+}
+
+.storm-flow-canvas .basic-node {
+  width: 201px;
+}
+
+.storm-flow-canvas .basic-node:hover .node-action {
+  display: block;
+}
+
+

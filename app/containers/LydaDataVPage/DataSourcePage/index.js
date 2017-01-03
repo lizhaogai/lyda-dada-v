@@ -61,11 +61,9 @@ export default class DataSourcePage extends React.Component {
 
   saveConnection = (data) => {
     data.appId = this.props.appId;
-    if (this.props.storage) {
-      this.props.storage['Connection'].save(data).then(() => {
-        this.fetchConnections()
-      });
-    }
+    this.context.client['Connection'].save(data).then(() => {
+      this.fetchConnections()
+    });
     this.closeConnectModal();
   };
 
