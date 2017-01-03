@@ -77,7 +77,7 @@ CollectionsRelation.propTypes = {
 
 function GenerateNodesAndLinksr(layer) {
 
-  if (!layer.schema) {
+  if (!layer.schema || layer.schema.resources.length == 0) {
     return {nodes: [], links: []};
   }
 
@@ -119,7 +119,7 @@ function GenerateNodesAndLinksr(layer) {
       sourcePort: 'in',
       target: join.targetResourceId,
       targetPort: 'in',
-      image: '/src/images/sql-join-icon.png'
+      image: '/images/sql-join-icon.png'
     }
   });
 

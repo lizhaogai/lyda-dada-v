@@ -9,7 +9,7 @@ import {Droppable} from 'react-drag-and-drop';
 export default class NewLayer extends React.Component {
 
   state = {
-    layer: {}
+    layer: {schema: {resources: [], joins: []}}
   };
 
   componentWillMount() {
@@ -48,18 +48,48 @@ export default class NewLayer extends React.Component {
       <CollectionsRelation
         dataModels={this.state.layer}
         onCollectionRemove={(id) => {
-          console.log(id);
+          let layer = removeResource(this.state.layer, id);
+          this.setState({layer: layer});
         }}
         onRelationClick={(link) => {
           console.log(link);
         }}
         onRelationAdd={(link) => {
-          console.log(link);
+          let join = {
+            "sourceResourceId": link.source,
+            "targetResourceId": link.target
+          };
+          let layer = this.state.layer;
+          layer.schema.joins.push(join);
+          this.setState({layer: layer});
         }}
       />
     </Droppable>
   }
 }
+
+function removeResource(layer, id) {
+  let resources = layer.schema.resources;
+  resources.map((resource, index) => {
+    if (resource.id == id) {
+      resources.splice(index, 1);
+    }
+  });
+  layer.schema.resources = resources;
+
+  let joins = layer.schema.joins;
+  for (var i = 0; i < joins.length; i++) {
+    let value = joins[i];
+    if (value.sourceResourceId == id || value.targetResourceId == id) {
+      joins.splice(i, 1);
+      i--;
+    }
+  }
+
+  layer.schema.joins = joins;
+
+  return layer;
+};
 
 NewLayer.propTypes = {
   storage: React.PropTypes.object,
