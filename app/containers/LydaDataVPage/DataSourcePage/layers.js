@@ -57,11 +57,11 @@ export default class Layers extends React.Component {
       }}>
         <Row className="show-grid">
           {
-            this.state.layers.map((layer) => {
-              return <Col xs={12} md={3} style={{padding: '0.75em 1.5em'}}>
+            this.state.layers.map((layer, index) => {
+              return <Col key={layer.id + index} xs={12} md={3} style={{padding: '0.75em 1.5em'}}>
                 <LayerDiv onClick={() => {
                   let router = this.context.router;
-                  router.push(this.context.router.location.pathname + '/newLayer/' + layer.id);
+                  router.push(this.context.router.location.pathname + '/layer/' + layer.id);
                 }}>{layer.name}</LayerDiv>
               </Col>
             })

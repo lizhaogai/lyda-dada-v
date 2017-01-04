@@ -6,6 +6,8 @@ import './cr.scss'
 import CollectionsRelation from './CollectionsRelation'
 import {Droppable} from 'react-drag-and-drop';
 import {FormControl} from 'react-bootstrap';
+var validator = require('validations/lib/validator');
+
 import {
   Dialog,
   Tabs,
@@ -108,7 +110,7 @@ export default class NewLayer extends React.Component {
         left: '14em',
         zIndex: 10
       }}>
-        数据视图/{this.state.layer.title || this.state.name || '添加 Layer'}
+        数据视图/{this.state.layer.title || this.state.layer.name || '添加 Layer'}
         <RaisedButton
           label="保存"
           primary={true}
@@ -161,7 +163,28 @@ export default class NewLayer extends React.Component {
       <Dialog open={this.state.showRelationSettingModal} onHide={this.closeRelationSettingModal}
               actions={[<FlatButton onClick={this.closeRelationSettingModal}>取消</FlatButton>,
                 <FlatButton onClick={() => {
-                  this.removeJoin(this.state.selectedLink)
+                  let join = this.state.join;
+                  let _join = {
+                    sourceResourceId: join.targetResourceId,
+                    targetResourceId: join.sourceResourceId,
+                    type: join.type,
+                    on: []
+                  };
+
+                  let source = getResource(this.state.layer, _join.sourceResourceId);
+                  let target = getResource(this.state.layer, _join.targetResourceId);
+                  (join.on || []).map(on => {
+                    _join.on.push({sourceColumnName: on.targetColumnName, targetColumnName: on.sourceColumnName});
+                  });
+                  this.setState({
+                    join: _join,
+                    source: source,
+                    target: target,
+                  });
+
+                }}>左右调换</FlatButton>,
+                <FlatButton onClick={() => {
+                  this.removeJoin(this.state.selectedLink);
                 }}>删除关联</FlatButton>,
                 <FlatButton
                   onClick={() => {
@@ -363,6 +386,12 @@ export default class NewLayer extends React.Component {
                     }
                     layer.appId = this.props.params.appId;
                     layer.status = layer.status || 'active';
+
+                    let errors = validator.layerValidator(layer);
+                    if (errors && errors.length > 0) {
+                      alert(errors);
+                      return;
+                    }
                     this.context.client['Layer'].save(layer).then(() => {
                       this.closeSaveLayerModal();
                     });
@@ -402,8 +431,10 @@ function updateJoin(layer, join) {
   let joins = layer.schema.joins;
   let found = false;
   joins.map((_join) => {
-    if (_join.sourceResourceId == join.sourceResourceId && _join.targetResourceId == join.targetResourceId) {
+    if ((_join.sourceResourceId == join.sourceResourceId && _join.targetResourceId == join.targetResourceId) || (_join.targetResourceId == join.sourceResourceId && _join.targetResourceId == join.sourceResourceId)) {
       found = true;
+      _join.sourceResourceId = join.sourceResourceId
+      _join.targetResourceId = join.targetResourceId
       _join.type = join.type;
       _join.on = join.on;
     }

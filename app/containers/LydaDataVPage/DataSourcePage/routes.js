@@ -25,7 +25,7 @@ module.exports = {
       },
     },
     {
-      path: '/:appId/data_v/dataSource/newLayer/:layerId',
+      path: '/:appId/data_v/dataSource/layer/:layerId',
       name: 'EditLayer',
       getComponent(nextState, cb) {
         System.import('./EditLayer')
