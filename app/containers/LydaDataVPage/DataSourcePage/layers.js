@@ -28,7 +28,11 @@ export default class Layers extends React.Component {
   };
 
   componentWillMount() {
-    this.setState({layers: this.props.layers || []});
+
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({layers: nextProps.layers});
   }
 
   render() {
@@ -55,7 +59,10 @@ export default class Layers extends React.Component {
           {
             this.state.layers.map((layer) => {
               return <Col xs={12} md={3} style={{padding: '0.75em 1.5em'}}>
-                <LayerDiv>{layer.name}</LayerDiv>
+                <LayerDiv onClick={() => {
+                  let router = this.context.router;
+                  router.push(this.context.router.location.pathname + '/newLayer/' + layer.id);
+                }}>{layer.name}</LayerDiv>
               </Col>
             })
           }
@@ -72,12 +79,11 @@ export default class Layers extends React.Component {
 }
 
 Layers.propTypes = {
-  storage: React.PropTypes.object,
-  appId: React.PropTypes.string,
-  layers: React.PropTypes.array
+  layers: React.PropTypes.array,
 };
 
 Layers.contextTypes = {
   router: React.PropTypes.object,
+  client: React.PropTypes.object
 };
 

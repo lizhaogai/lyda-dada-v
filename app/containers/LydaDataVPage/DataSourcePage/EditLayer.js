@@ -5,7 +5,7 @@ import 'storm-react-diagrams/src/sass.scss';
 import './cr.scss'
 import CollectionsRelation from './CollectionsRelation'
 import {Droppable} from 'react-drag-and-drop';
-import {Button, FormControl} from 'react-bootstrap';
+import {FormControl} from 'react-bootstrap';
 import {
   Dialog,
   Tabs,
@@ -17,7 +17,8 @@ import {
   TableBody,
   TableRowColumn,
   RaisedButton,
-  FlatButton
+  FlatButton,
+  TextField
 } from 'material-ui';
 
 export default class NewLayer extends React.Component {
@@ -27,6 +28,13 @@ export default class NewLayer extends React.Component {
   };
 
   componentWillMount() {
+    if (this.props.params.layerId) {
+      this.context.client['Layer'].findById(this.props.params.layerId).then((layer) => {
+        if (layer) {
+          this.setState({layer: layer});
+        }
+      });
+    }
   }
 
 
@@ -83,6 +91,9 @@ export default class NewLayer extends React.Component {
     this.setState({showRelationSettingModal: false});
   };
 
+  closeSaveLayerModal = () => {
+    this.setState({showSaveLayerModal: false});
+  };
 
   render() {
     return <div>
@@ -97,7 +108,7 @@ export default class NewLayer extends React.Component {
         left: '14em',
         zIndex: 10
       }}>
-        数据视图/添加Layer
+        数据视图/{this.state.layer.title || this.state.name || '添加 Layer'}
         <RaisedButton
           label="保存"
           primary={true}
@@ -105,7 +116,7 @@ export default class NewLayer extends React.Component {
             float: 'right', marginTop: '-0.5em'
           }}
           onClick={() => {
-            console.log(this.state.layer);
+            this.setState({showSaveLayerModal: true});
           }}
         />
       </div>
@@ -163,6 +174,16 @@ export default class NewLayer extends React.Component {
                       alert('请检查关联字段是否已全部设置');
                       return;
                     }
+
+                    if (!join.on || join.on.length == 0) {
+                      alert('请选择关联字段');
+                      return;
+                    }
+
+                    if (!join.type) {
+                      join.type = 'full';
+                    }
+
                     let layer = this.state.layer;
                     layer = updateJoin(layer, join);
                     this.setState({layer: layer});
@@ -319,7 +340,46 @@ export default class NewLayer extends React.Component {
             </TableRow>
           </TableBody>
         </Table>
+      </Dialog>
 
+      <Dialog open={this.state.showSaveLayerModal}
+              actions={[
+                <FlatButton onClick={() => {
+                  this.setState({layerName: ''});
+                  this.closeSaveLayerModal()
+                }}>取消</FlatButton>,
+                <FlatButton
+                  onClick={() => {
+                    let layer = this.state.layer;
+                    if (!layer.schema.resources || layer.schema.resources.length == 0) {
+                      alert('请配置数据源');
+                      return;
+                    }
+
+                    layer.name = this.state.layerName || layer.name;
+                    if (!layer.name) {
+                      alert('请输 入Layer 名称');
+                      return;
+                    }
+                    layer.appId = this.props.params.appId;
+                    layer.status = layer.status || 'active';
+                    this.context.client['Layer'].save(layer).then(() => {
+                      this.closeSaveLayerModal();
+                    });
+                  }}
+                >确定</FlatButton>]}
+              title="保存 Layer"
+      >
+
+        <TextField
+          hintText="Layer 名称"
+          floatingLabelText="Layer 名称"
+          fullWidth={true}
+          value={this.state.layerName || this.state.layer.name || ''}
+          onChange={(e) => {
+            this.setState({layerName: e.target.value});
+          }}
+        /><br />
       </Dialog>
     </div>
   }
@@ -404,8 +464,7 @@ function removeResource(layer, id) {
 };
 
 NewLayer.propTypes = {
-  storage: React.PropTypes.object,
-  appId: React.PropTypes.string
+  params: React.PropTypes.object
 };
 
 NewLayer.contextTypes = {

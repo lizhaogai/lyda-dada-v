@@ -7,7 +7,7 @@ const errorLoading = (err) => {
 };
 
 module.exports = {
-  path: '/data_v/dataSource',
+  path: '/:appId/data_v/dataSource',
   name: 'dataSource',
   getComponent(nextState, cb) {
     System.import('./')
@@ -16,10 +16,19 @@ module.exports = {
   },
   childRoutes: [
     {
-      path: '/data_v/dataSource/newLayer',
+      path: '/:appId/data_v/dataSource/newLayer',
       name: 'newLayer',
       getComponent(nextState, cb) {
-        System.import('./NewLayer')
+        System.import('./EditLayer')
+          .then(loadModule(cb))
+          .catch(errorLoading);
+      },
+    },
+    {
+      path: '/:appId/data_v/dataSource/newLayer/:layerId',
+      name: 'EditLayer',
+      getComponent(nextState, cb) {
+        System.import('./EditLayer')
           .then(loadModule(cb))
           .catch(errorLoading);
       },

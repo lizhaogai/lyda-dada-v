@@ -29,10 +29,13 @@ export default class DataSourcePage extends React.Component {
 
   componentWillMount() {
     this.fetchConnections();
+    this.context.client["Layer"].get(this.props.params.appId).then((layers) => {
+      this.setState({layers: layers || []});
+    });
   }
 
   fetchConnections() {
-    this.context.client['Connection'].get(this.props.appId).then((connections) => {
+    this.context.client['Connection'].get(this.props.params.appId).then((connections) => {
       if (connections.length == 1) {
         this.setState({selectedConnectId: connections[0].id});
         this.fetchCollections(connections[0].id);
@@ -60,7 +63,7 @@ export default class DataSourcePage extends React.Component {
   };
 
   saveConnection = (data) => {
-    data.appId = this.props.appId;
+    data.appId = this.props.params.appId;
     this.context.client['Connection'].save(data).then(() => {
       this.fetchConnections()
     });
@@ -136,9 +139,8 @@ export default class DataSourcePage extends React.Component {
 }
 
 DataSourcePage.propTypes = {
-  storage: React.PropTypes.object,
-  appId: React.PropTypes.string,
   children: React.PropTypes.node,
+  params: React.PropTypes.object
 };
 
 DataSourcePage.contextTypes = {

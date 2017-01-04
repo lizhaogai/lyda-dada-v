@@ -38,7 +38,13 @@ export default {
         } else {
           localData = [];
         }
-        resolve(localData || [])
+
+        let results = localData.map((connection) => {
+          if (connection.appId == appId) {
+            return connection;
+          }
+        });
+        resolve(results || [])
       });
 
     }
@@ -66,6 +72,66 @@ export default {
 
       return new Promise((resolve) => {
         resolve(resource);
+      });
+    }
+  },
+  Layer: {
+    save: function (data) {
+      if (!data.id) {
+        data.id = uid.v1();
+      }
+      let localData = localStorage['layers'];
+      if (localData) {
+        localData = JSON.parse(localData);
+      } else {
+        localData = [];
+      }
+      let found = false;
+      localData.map((_data, index) => {
+        if (_data.id == data.id) {
+          found = true;
+          localData[index] = data;
+        }
+      });
+
+      if (!found) {
+        localData.push(data);
+      }
+      localStorage['layers'] = JSON.stringify(localData);
+      return new Promise((resolve, reject) => {
+        resolve();
+      });
+    },
+    get: function (appId) {
+      return new Promise((resolve, reject) => {
+        let localData = localStorage['layers'];
+        if (localData) {
+          localData = JSON.parse(localData);
+        } else {
+          localData = [];
+        }
+
+        let results = localData.map((layer) => {
+          if (layer.appId == appId) {
+            return layer;
+          }
+        });
+        resolve(results || [])
+      });
+    },
+    findById: function (layerId) {
+      return new Promise((resolve, reject) => {
+        let localData = localStorage['layers'];
+        if (localData) {
+          localData = JSON.parse(localData);
+        } else {
+          localData = [];
+        }
+
+        let layer = localData.find(_layer => {
+          return _layer.id == layerId;
+        });
+        resolve(layer)
       });
     }
   }

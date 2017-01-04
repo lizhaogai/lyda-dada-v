@@ -126,7 +126,7 @@ function GenerateNodesAndLinksr(layer) {
               color: 'rgb(255, 255, 255)'
             },
             dangerouslySetInnerHTML: {
-              __html: 'Left'
+              __html: join.type || 'full'
             }
           })
         }
