@@ -19,19 +19,31 @@ module.exports = {
       path: '/:appId/data_v/dataSource/newLayer',
       name: 'newLayer',
       getComponent(nextState, cb) {
-        System.import('./EditLayer')
-          .then(loadModule(cb))
-          .catch(errorLoading);
+        const importModules = Promise.all([System.import('./EditLayer')]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([component]) => {
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
       },
     },
     {
       path: '/:appId/data_v/dataSource/layer/:layerId',
       name: 'EditLayer',
       getComponent(nextState, cb) {
-        System.import('./EditLayer')
-          .then(loadModule(cb))
-          .catch(errorLoading);
-      },
+        const importModules = Promise.all([require('./EditLayer')]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([component]) => {
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      }
     }
   ]
 };

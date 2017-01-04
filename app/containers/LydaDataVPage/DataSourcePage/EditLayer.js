@@ -23,7 +23,7 @@ import {
   TextField
 } from 'material-ui';
 
-export default class NewLayer extends React.Component {
+export default class EditLayer extends React.Component {
 
   state = {
     layer: {schema: {resources: [], joins: []}}
@@ -160,7 +160,7 @@ export default class NewLayer extends React.Component {
           }}
         />
       </Droppable>
-      <Dialog open={this.state.showRelationSettingModal} onHide={this.closeRelationSettingModal}
+      <Dialog open={this.state.showRelationSettingModal || false} onHide={this.closeRelationSettingModal}
               actions={[<FlatButton onClick={this.closeRelationSettingModal}>取消</FlatButton>,
                 <FlatButton onClick={() => {
                   let join = this.state.join;
@@ -365,7 +365,7 @@ export default class NewLayer extends React.Component {
         </Table>
       </Dialog>
 
-      <Dialog open={this.state.showSaveLayerModal}
+      <Dialog open={this.state.showSaveLayerModal || false}
               actions={[
                 <FlatButton onClick={() => {
                   this.setState({layerName: ''});
@@ -494,11 +494,11 @@ function removeResource(layer, id) {
   return layer;
 };
 
-NewLayer.propTypes = {
+EditLayer.propTypes = {
   params: React.PropTypes.object
 };
 
-NewLayer.contextTypes = {
+EditLayer.contextTypes = {
   router: React.PropTypes.object,
   client: React.PropTypes.object
 };

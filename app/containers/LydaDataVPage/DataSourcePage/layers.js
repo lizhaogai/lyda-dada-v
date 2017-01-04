@@ -1,13 +1,13 @@
 import React from 'react';
 import {Button, Modal} from 'react-bootstrap';
 import {Grid, Row, Col} from 'react-bootstrap';
-import DataSourceSidebar from './DataSourceSidebar';
-import ConnectionForms from './ConnectionForms';
 import styled from 'styled-components';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import 'storm-react-diagrams/src/sass.scss';
 import './cr.scss'
+import {push} from 'react-router-redux';
+import {connect} from 'react-redux';
 
 let LayerDiv = styled.div`
     border-radius: 3px;
@@ -21,7 +21,7 @@ let LayerDiv = styled.div`
     }
 `;
 
-export default class Layers extends React.Component {
+class Layers extends React.Component {
 
   state = {
     layers: []
@@ -60,16 +60,14 @@ export default class Layers extends React.Component {
             this.state.layers.map((layer, index) => {
               return <Col key={layer.id + index} xs={12} md={3} style={{padding: '0.75em 1.5em'}}>
                 <LayerDiv onClick={() => {
-                  let router = this.context.router;
-                  router.push(this.context.router.location.pathname + '/layer/' + layer.id);
+                  this.props.onChangRoute('/layer/' + layer.id);
                 }}>{layer.name}</LayerDiv>
               </Col>
             })
           }
           <Col xs={12} md={3} style={{padding: '0.75em 1.5em'}}>
             <LayerDiv onClick={() => {
-              let router = this.context.router;
-              router.push(this.context.router.location.pathname + '/newLayer');
+              this.props.onChangRoute('/newLayer');
             }}>+</LayerDiv>
           </Col>
         </Row>
@@ -78,8 +76,19 @@ export default class Layers extends React.Component {
   }
 }
 
+
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch,
+  };
+}
+
+export default connect(mapDispatchToProps)(Layers);
+
 Layers.propTypes = {
   layers: React.PropTypes.array,
+  dispatch: React.PropTypes.func.isRequired,
+  onChangRoute: React.PropTypes.func.isRequired
 };
 
 Layers.contextTypes = {

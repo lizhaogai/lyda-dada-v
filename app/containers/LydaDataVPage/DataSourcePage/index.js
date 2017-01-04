@@ -8,6 +8,8 @@ import 'react-resizable/css/styles.css';
 import 'storm-react-diagrams/src/sass.scss';
 import './cr.scss'
 import Layers from './layers';
+import {push} from 'react-router-redux';
+import {connect} from 'react-redux';
 
 let LayerDiv = styled.div`
     border-radius: 3px;
@@ -21,7 +23,7 @@ let LayerDiv = styled.div`
     }
 `;
 
-export default class DataSourcePage extends React.Component {
+class DataSourcePage extends React.Component {
 
   state = {
     layers: []
@@ -115,7 +117,10 @@ export default class DataSourcePage extends React.Component {
             }
           />
         </div>
-        {!this.props.children ? <Layers layers={this.state.layers}/> : this.props.children}
+        {!this.props.children ? <Layers layers={this.state.layers}
+                                        onChangRoute={(path) => {
+                                          this.props.dispatch(push(this.props.location.pathname + path));
+                                        }}/> : this.props.children}
 
         <Modal show={this.state && this.state.showConnectModal} onHide={this.closeConnectModal}>
           <Modal.Header closeButton>
@@ -138,9 +143,17 @@ export default class DataSourcePage extends React.Component {
   }
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch,
+  };
+}
+
+export default connect(mapDispatchToProps)(DataSourcePage);
+
 DataSourcePage.propTypes = {
-  children: React.PropTypes.node,
-  params: React.PropTypes.object
+  params: React.PropTypes.object,
+  dispatch: React.PropTypes.func.isRequired
 };
 
 DataSourcePage.contextTypes = {

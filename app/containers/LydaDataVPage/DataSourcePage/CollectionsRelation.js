@@ -41,12 +41,26 @@ export default class CollectionsRelation extends React.Component {
 
     engine.loadModel(model);
 
-    this.setState({engine: engine});
+    let height = 200;
+    model.nodes.map(node => {
+      if (node.y + 60 > 200) {
+        height = node.y + 60;
+      }
+    });
+
+    this.setState({engine: engine, height: height});
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.dataModels) {
       let model = GenerateNodesAndLinksr(nextProps.dataModels);
+      let height = 200;
+      model.nodes.map(node => {
+        if (node.y + 60 > 200) {
+          height = node.y + 60;
+        }
+      });
+      this.setState({height: height});
       this.state.engine.reloadModel(model);
     }
   }
@@ -56,7 +70,7 @@ export default class CollectionsRelation extends React.Component {
       <CanvasWidget
         style={{
           width: '100%',
-          height: 400,
+          minHeight: this.state.height || 200,
           background: '#3c3c3c',
           display: 'flex'
         }}
