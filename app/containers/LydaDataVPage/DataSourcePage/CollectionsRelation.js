@@ -192,8 +192,8 @@ function generateNodes(resourcesHolder, ids, joins, column) {
       lastCol = node.data.column;
     }
     colIndex++;
-    node.x = (50 + (node.data.column - 1) * 300);
-    node.y = (50 + (colIndex - 1) * 70);
+    node.x = (35 + (node.data.column - 1) * 300);
+    node.y = (30 + (colIndex - 1) * 55);
 
     _nodes.push(node);
   });
