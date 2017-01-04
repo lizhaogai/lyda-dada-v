@@ -112,19 +112,6 @@ export default class DataSourcePage extends React.Component {
             }
           />
         </div>
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          right: 0,
-          height: '2em',
-          borderBottom: '1px solid #ddd',
-          background: '#fcfcfc',
-          padding: '0.25em 1em',
-          left: '14em',
-          zIndex: 10
-        }}>
-          数据视图/{this.state.title}
-        </div>
         {!this.props.children ? <Layers layers={this.state.layers}/> : this.props.children}
 
         <Modal show={this.state && this.state.showConnectModal} onHide={this.closeConnectModal}>

@@ -1,7 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
 import styled from 'styled-components';
-import LocalStorage from './LocalStorage'
 
 let StyledLink = styled(Link)`
   line-height: 2em;
@@ -32,7 +31,6 @@ export default class LydaDataVPage extends React.Component { // eslint-disable-l
   }
 
   render() {
-    console.log(111);
     return (
       <div style={{fontSize: '16px'}}>
         {this.props.children}

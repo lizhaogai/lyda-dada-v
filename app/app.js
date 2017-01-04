@@ -32,6 +32,7 @@ import LanguageProvider from 'containers/LanguageProvider';
 // Import CSS reset and Global Styles
 import 'sanitize.css/sanitize.css';
 import './global-styles';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 // Observe loading of Open Sans (to remove open sans, remove the <link> tag in
 // the index.html file and this observer)
@@ -75,19 +76,21 @@ const rootRoute = {
 const render = (messages) => {
   ReactDOM.render(
     <ContextProvider context={{client: LocalStorage}}>
-      <Provider store={store}>
-        <LanguageProvider messages={messages}>
-          <Router
-            history={history}
-            routes={rootRoute}
-            render={
-              // Scroll to top when going to a new page, imitating default browser
-              // behaviour
-              applyRouterMiddleware(useScroll())
-            }
-          />
-        </LanguageProvider>
-      </Provider>
+      <MuiThemeProvider>
+        <Provider store={store}>
+          <LanguageProvider messages={messages}>
+            <Router
+              history={history}
+              routes={rootRoute}
+              render={
+                // Scroll to top when going to a new page, imitating default browser
+                // behaviour
+                applyRouterMiddleware(useScroll())
+              }
+            />
+          </LanguageProvider>
+        </Provider>
+      </MuiThemeProvider>
     </ContextProvider>,
     document.getElementById('app')
   );

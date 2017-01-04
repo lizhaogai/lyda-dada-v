@@ -1,7 +1,6 @@
 import React, {PropTypes} from 'react';
 import {Engine, CanvasWidget} from 'storm-react-diagrams'
 import TableRelationNodeWidget from 'storm-react-diagrams/src/widgets/TableRelationNodeWidget';
-import styled from 'styled-components';
 
 export default class CollectionsRelation extends React.Component {
 
@@ -48,8 +47,7 @@ export default class CollectionsRelation extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.dataModels) {
       let model = GenerateNodesAndLinksr(nextProps.dataModels);
-      this.state.engine.loadModel(model);
-      this.state.engine.forceUpdate();
+      this.state.engine.reloadModel(model);
     }
   }
 
@@ -118,7 +116,21 @@ function GenerateNodesAndLinksr(layer) {
       sourcePort: 'in',
       target: join.targetResourceId,
       targetPort: 'in',
-      image: '/images/sql-join-icon.png'
+      relationComp: React.createClass({
+        render: function () {
+          return React.createElement('div', {
+            style: {
+              fontSize: '12px',
+              paddingTop: 6,
+              paddingLeft: 4,
+              color: 'rgb(255, 255, 255)'
+            },
+            dangerouslySetInnerHTML: {
+              __html: 'Left'
+            }
+          })
+        }
+      })
     }
   });
 

@@ -22,7 +22,7 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
           <HeaderLink to="/features">
             <FormattedMessage {...messages.features} />
           </HeaderLink>
-          <HeaderLink to="/data_v">
+          <HeaderLink to="/data_v/dataSource">
             LydaDataV
           </HeaderLink>
         </NavBar>

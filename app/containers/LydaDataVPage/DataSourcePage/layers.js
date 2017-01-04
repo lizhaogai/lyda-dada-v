@@ -32,27 +32,42 @@ export default class Layers extends React.Component {
   }
 
   render() {
-    return <Grid style={{
-      right: 0,
-      marginTop: '2.25em',
-      paddingLeft: '8.5em',
-    }}>
-      <Row className="show-grid">
-        {
-          this.state.layers.map((layer) => {
-            return <Col xs={12} md={3} style={{padding: '0.75em 1.5em'}}>
-              <LayerDiv>{layer.name}</LayerDiv>
-            </Col>
-          })
-        }
-        <Col xs={12} md={3} style={{padding: '0.75em 1.5em'}}>
-          <LayerDiv onClick={() => {
-            let router = this.context.router;
-            router.push(this.context.router.location.pathname + '/newLayer');
-          }}>+</LayerDiv>
-        </Col>
-      </Row>
-    </Grid>
+    return <div>
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        right: 0,
+        height: '2em',
+        borderBottom: '1px solid #ddd',
+        background: '#fcfcfc',
+        padding: '0.25em 1em',
+        left: '14em',
+        zIndex: 10
+      }}>
+        数据视图
+      </div>
+      <Grid style={{
+        right: 0,
+        marginTop: '2.25em',
+        paddingLeft: '8.5em',
+      }}>
+        <Row className="show-grid">
+          {
+            this.state.layers.map((layer) => {
+              return <Col xs={12} md={3} style={{padding: '0.75em 1.5em'}}>
+                <LayerDiv>{layer.name}</LayerDiv>
+              </Col>
+            })
+          }
+          <Col xs={12} md={3} style={{padding: '0.75em 1.5em'}}>
+            <LayerDiv onClick={() => {
+              let router = this.context.router;
+              router.push(this.context.router.location.pathname + '/newLayer');
+            }}>+</LayerDiv>
+          </Col>
+        </Row>
+      </Grid>
+    </div>
   }
 }
 
