@@ -66,7 +66,7 @@ export default class EditLayer extends React.Component {
             "resourceId": resource.id,
             "columnName": column.name
           };
-          if (!existSameNameField) {
+          if (existSameNameField) {
             newField.name = column.name + "_" + resource.name;
           }
           layer.fields.push(newField);
