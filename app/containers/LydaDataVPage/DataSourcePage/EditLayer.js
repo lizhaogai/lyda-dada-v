@@ -97,6 +97,55 @@ export default class EditLayer extends React.Component {
     this.setState({showSaveLayerModal: false});
   };
 
+  renderRelationType(join) {
+    let type = join && join.type;
+    let operator = join && join.operator;
+    if (type == 'left') {
+      return <FormControl
+        componentClass="select"
+        placeholder="select"
+        value={operator || 'outer'}
+        onChange={(e) => {
+          let value = e.target.value;
+          let join = this.state.join;
+          join.operator = value;
+          this.setState({join: join});
+        }}
+        style={{
+          border: 'none'
+        }}
+      >
+        <option value="outer">左连接-outer</option>
+        <option value="anti">左连接-anti</option>
+        <option value="semi">左连接-semi</option>
+      </FormControl>
+    } else if (type == 'right') {
+      return <FormControl
+        componentClass="select"
+        placeholder="select"
+        value={operator || 'outer'}
+        onChange={(e) => {
+          let value = e.target.value;
+          let join = this.state.join;
+          join.operator = value;
+          this.setState({join: join});
+        }}
+        style={{
+          border: 'none'
+        }}
+      >
+        <option value="outer">右连接-outer</option>
+        <option value="anti">右连接-anti</option>
+        <option value="semi">右连接-semi</option>
+      </FormControl>
+
+    } else if (type == 'inner') {
+      return '内连接';
+    } else {
+      return '全连接';
+    }
+  }
+
   render() {
     return <div>
       <div style={{
@@ -207,6 +256,12 @@ export default class EditLayer extends React.Component {
                       join.type = 'full';
                     }
 
+                    if (join.type == 'right' || join.type == 'left') {
+                      join.operator = join.operator || 'outer';
+                    } else {
+                      join.operator = '';
+                    }
+
                     let layer = this.state.layer;
                     layer = updateJoin(layer, join);
                     this.setState({layer: layer});
@@ -236,7 +291,9 @@ export default class EditLayer extends React.Component {
             <TableRow>
               <TableHeaderColumn
                 style={{borderBottom: 0}}>{this.state.source && (this.state.source.title || this.state.source.name)}</TableHeaderColumn>
-              <TableHeaderColumn style={{borderBottom: 0, textAlign: 'center'}}>全连接</TableHeaderColumn>
+              <TableHeaderColumn style={{borderBottom: 0, textAlign: 'center'}}>
+                {this.renderRelationType(this.state.join)}
+              </TableHeaderColumn>
               <TableHeaderColumn
                 style={{borderBottom: 0}}>{this.state.target && (this.state.target.title || this.state.target.name)}</TableHeaderColumn>
               <TableHeaderColumn></TableHeaderColumn>
@@ -436,6 +493,7 @@ function updateJoin(layer, join) {
       _join.sourceResourceId = join.sourceResourceId
       _join.targetResourceId = join.targetResourceId
       _join.type = join.type;
+      _join.operator = join.operator;
       _join.on = join.on;
     }
   });

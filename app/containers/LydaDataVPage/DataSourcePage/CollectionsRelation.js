@@ -71,6 +71,7 @@ export default class CollectionsRelation extends React.Component {
         style={{
           width: '100%',
           minHeight: this.state.height || 200,
+          overflowX: 'scroll',
           background: '#3c3c3c',
           display: 'flex'
         }}
