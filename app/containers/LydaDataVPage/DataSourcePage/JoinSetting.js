@@ -55,9 +55,6 @@ export default class LayerSave extends React.Component {
           join.operator = value;
           this.setState({join: join});
         }}
-        style={{
-          border: 'none'
-        }}
       >
         <option value="outer">左连接-outer</option>
         <option value="anti">左连接-anti</option>
@@ -73,9 +70,6 @@ export default class LayerSave extends React.Component {
           let join = this.state.join;
           join.operator = value;
           this.setState({join: join});
-        }}
-        style={{
-          border: 'none'
         }}
       >
         <option value="outer">右连接-outer</option>
@@ -178,8 +172,10 @@ export default class LayerSave extends React.Component {
         }}/>
       </Tabs>
 
-      <Table style={{marginTop: 15, marginBottom: 15}}>
-        <TableHeader>
+      <Table style={{marginTop: 15, marginBottom: 15}}  selectable={false}>
+        <TableHeader
+          displaySelectAll={false}
+          adjustForCheckbox={false}>
           <TableRow>
             <TableHeaderColumn
               style={{borderBottom: 0}}>{this.state.source && (this.state.source.title || this.state.source.name)}</TableHeaderColumn>
@@ -191,7 +187,7 @@ export default class LayerSave extends React.Component {
             <TableHeaderColumn></TableHeaderColumn>
           </TableRow>
         </TableHeader>
-        <TableBody>
+        <TableBody  displayRowCheckbox={false}>
           {((this.state.join && this.state.join.on) || []).map((joinOn, index) => {
             return <TableRow key={index + '_join_on'}>
               <TableRowColumn><FormControl
@@ -203,9 +199,6 @@ export default class LayerSave extends React.Component {
                   let join = this.state.join;
                   join.on[index].sourceColumnName = sourceColumn;
                   this.setState({join: join});
-                }}
-                style={{
-                  border: 'none'
                 }}
               >
                 <option value="">选择关联字段</option>
@@ -224,9 +217,6 @@ export default class LayerSave extends React.Component {
                   let join = this.state.join;
                   join.on[index].targetColumnName = targetColumnName;
                   this.setState({join: join});
-                }}
-                style={{
-                  border: 'none'
                 }}
               >
                 <option value="">选择关联字段</option>
@@ -268,9 +258,6 @@ export default class LayerSave extends React.Component {
                   });
                   this.setState({layer: layer, join: join});
                 }}
-                style={{
-                  border: 'none'
-                }}
               >
                 <option value="">添加新的关联字段</option>
                 {((this.state.source && this.state.source.columns) || []).map((column, index) => {
@@ -284,9 +271,6 @@ export default class LayerSave extends React.Component {
               <FormControl
                 componentClass="select"
                 placeholder="select"
-                style={{
-                  border: 'none'
-                }}
                 value={""}
                 onChange={(value) => {
                   let targetColumn = value.target.value;

@@ -1,5 +1,4 @@
 import React from 'react';
-import {Button, Modal} from 'react-bootstrap';
 import {Grid, Row, Col} from 'react-bootstrap';
 import styled from 'styled-components';
 import 'react-grid-layout/css/styles.css';

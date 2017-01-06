@@ -75,9 +75,6 @@ export default class Lookup extends React.Component {
             }
             this.setState({field: field});
           }}
-          style={{
-            border: 'none'
-          }}
         >
           <option value="none"> 无自定义显示
           </option >
@@ -93,8 +90,9 @@ export default class Lookup extends React.Component {
       </div>
       {this.state.field && this.state.field.lookup && this.state.field && this.state.field.lookup.type == 'data' ?
         <Table style={{marginTop: 15, marginBottom: 15}} selectable={false}>
-          <TableHeader displaySelectAll={false}
-                       adjustForCheckbox={false}>
+          <TableHeader
+            displaySelectAll={false}
+            adjustForCheckbox={false}>
             <TableRow>
               <TableHeaderColumn
                 style={{borderBottom: 0}}>真实值</TableHeaderColumn>

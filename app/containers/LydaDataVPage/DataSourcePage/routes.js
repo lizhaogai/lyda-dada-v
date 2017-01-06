@@ -19,7 +19,7 @@ module.exports = {
       path: '/:appId/data_v/dataSource/newLayer',
       name: 'newLayer',
       getComponent(nextState, cb) {
-        const importModules = Promise.all([System.import('./EditLayer')]);
+        const importModules = Promise.all([System.import('./Layer')]);
 
         const renderRoute = loadModule(cb);
 
@@ -34,7 +34,7 @@ module.exports = {
       path: '/:appId/data_v/dataSource/layer/:layerId',
       name: 'EditLayer',
       getComponent(nextState, cb) {
-        const importModules = Promise.all([require('./EditLayer')]);
+        const importModules = Promise.all([require('./Layer')]);
 
         const renderRoute = loadModule(cb);
 
