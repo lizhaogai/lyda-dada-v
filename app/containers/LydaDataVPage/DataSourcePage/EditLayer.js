@@ -23,14 +23,30 @@ import {
   FlatButton,
   Popover,
   MenuItem,
-  Menu
+  Menu,
+  TableHeader,
+  TableHeaderColumn
 } from 'material-ui';
+
+let StyledTableRowColumn = styled(TableHeaderColumn)`
+
+    & .field-config{
+      display:none;
+    }
+    &:hover .field-config{
+      display:block;
+    }
+`;
 
 let FieldDiv = styled.div`
     float: right;
     margin-top: -70px;
     color: rgb(23, 196, 187);
     margin-right: -8px;
+    
+    &:hover {
+      cursor: pointer;
+    }
     
 `;
 
@@ -95,7 +111,7 @@ export default class EditLayer extends React.Component {
 
     let cols = fields.map((field, index) => {
       let resource = Utils.getResource(layer, field.resourceId);
-      return <TableRowColumn
+      return <StyledTableRowColumn
         key={index}
         style={{
           width: 100,
@@ -105,17 +121,28 @@ export default class EditLayer extends React.Component {
         }}
       >
         <div style={{fontSize: '0.75em', color: 'rgb(23, 196, 187)', padding: '0.25em'}}>{getTypeIcon(field.type)}</div>
-        <div style={{padding: '0.25em'}}>{resource.title || resource.name}</div>
-        <div style={{padding: '0.25em', paddingRight: '0.5em'}}>{field.label || field.name}</div>
+        <div style={{
+          padding: '0.25em',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden'
+        }}><span>{resource.title || resource.name}</span></div>
+        <div style={{
+          padding: '0.25em',
+          paddingRight: '0.5em',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden'
+        }}>{field.label || field.name}</div>
         {this.renderFieldConfig(resource, field)}
-      </TableRowColumn>
+      </StyledTableRowColumn>
     });
 
     return <TableRow>{cols}</TableRow>;
   }
 
   renderFieldConfig(resource, field) {
-    return <FieldDiv>
+    return <FieldDiv className="field-config">
       <FaCog
         onClick={(e) => {
           this.setState({
@@ -140,7 +167,12 @@ export default class EditLayer extends React.Component {
           <MenuItem
             primaryText="编辑"
             onClick={() => {
-              this.setState({showFieldSetting: true, fieldConfig: null, field: field, resource: resource});
+              this.setState({
+                showFieldSetting: true,
+                fieldConfig: null,
+                field: Object.assign({}, field),
+                resource: resource
+              });
             }}
           />
           <MenuItem primaryText="创建计算字段"/>
@@ -161,7 +193,8 @@ export default class EditLayer extends React.Component {
             style={{
               width: 100,
               paddingLeft: 5,
-              paddingRight: 5
+              paddingRight: 5,
+              textAlign: field.type.toLowerCase() == 'number' ? 'right' : 'left'
             }}
           >{item[field.name]}
           </TableRowColumn>
@@ -237,13 +270,15 @@ export default class EditLayer extends React.Component {
       </Droppable>
 
       <div style={{marginLeft: '14em', marginTop: '1em', marginBottom: 0}}>
-        <Table wrapperStyle={{overflowX: 'scroll'}}
-               style={{width: '100%'}}
+        <Table
+          style={{width: '100%'}}
         >
+          <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+            {this.renderHeader()}
+          </TableHeader>
           <TableBody
             displayRowCheckbox={false}
           >
-            {this.renderHeader()}
             {this.renderData()}
           </TableBody>
         </Table>
@@ -300,8 +335,13 @@ export default class EditLayer extends React.Component {
         open={this.state.showFieldSetting || false}
         field={this.state.field}
         resource={this.state.resource}
-        onSave={(field) => {
-          console.log(field);
+        onSave={(field, resource) => {
+          if (Utils.verifyFieldName(this.state.layer, field)) {
+            alert('字段名: ' + field.name + ' 已存在, 请修改');
+            return;
+          }
+          let layer = Utils.updateField(this.state.layer, field, resource);
+          this.setState({showFieldSetting: false, layer: layer});
         }}
         onClose={() => {
           this.setState({showFieldSetting: false});

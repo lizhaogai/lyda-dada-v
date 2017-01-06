@@ -79,10 +79,54 @@ function removeResource(layer, id) {
   return layer;
 };
 
+
+function updateField(layer, field, resource) {
+  let i = 0;
+  let _field = layer.fields.find((item, index) => {
+    let result = item.resourceId == field.resourceId && item.columnName == field.columnName;
+    if (result) {
+      i = index;
+    }
+    return result;
+  });
+
+  if (!field.label) {
+    let resourceField = resource.columns.find(item => {
+      return item.name == field.columnName;
+    });
+    field.label = resourceField.label;
+  }
+  if (!field.name) {
+    let layField = layer.fields.find(item => {
+      return item.name == field.columnName;
+    });
+    if (layField) {
+      field.name = field.columnName + '_' + resource.name;
+    } else {
+      field.name = field.columnName
+    }
+  }
+
+
+  _field = Object.assign(_field, field);
+  layer.fields[i] = _field;
+  return layer;
+}
+
+function verifyFieldName(layer, field) {
+  let _field = layer.fields.find(item => {
+    return item.columnName != field.columnName && item.name == field.name;
+  });
+
+  return !!_field;
+}
+
 module.exports = {
   getJoin: getJoin,
   getResource: getResource,
   updateJoin: updateJoin,
   removeJoinByLink: removeJoinByLink,
-  removeResource: removeResource
+  removeResource: removeResource,
+  updateField: updateField,
+  verifyFieldName: verifyFieldName
 };
