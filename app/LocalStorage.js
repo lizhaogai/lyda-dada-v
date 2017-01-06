@@ -134,6 +134,31 @@ export default {
         resolve(layer)
       });
     }
+  },
+  Report: {
+    query: function (query) {
+      let datas = [];
+
+      while (true) {
+        let data = {};
+        query.layer.fields.map((field) => {
+          if (field.type.toLowerCase() == 'number') {
+            data[field.name] = parseInt(Math.random() * 100);
+          } else if (field.type.toLowerCase() == 'string') {
+            data[field.name] = uid.v1().substr(4, 10);
+          } else if (field.type.toLowerCase() == 'date') {
+            data[field.name] = new Date().toJSON();
+          }
+        });
+        datas.push(data);
+        if (datas.length >= 10) {
+          break;
+        }
+      }
+      return new Promise((resolve, reject) => {
+        resolve(datas);
+      });
+    }
   }
 }
 

@@ -6,7 +6,6 @@ import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import 'storm-react-diagrams/src/sass.scss';
 import './cr.scss'
-import {push} from 'react-router-redux';
 import {connect} from 'react-redux';
 
 let LayerDiv = styled.div`
