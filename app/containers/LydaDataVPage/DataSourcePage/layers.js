@@ -10,9 +10,9 @@ import {connect} from 'react-redux';
 
 let LayerDiv = styled.div`
     border-radius: 3px;
-    padding: 0.5em 0em;
+    padding: 0.75em 0em;
     text-align: center;
-    font-size: 2em;
+    font-size: 1.25em;
     border: 1px solid rgb(204, 204, 204);
                 
     &:hover{

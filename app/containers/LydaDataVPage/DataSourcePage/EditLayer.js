@@ -13,6 +13,7 @@ import FieldSetting from './FieldSetting';
 import LayerSave from './LayerSave';
 import JoinSetting from './JoinSetting';
 import Utils from './utils';
+import Lookup from './Lookup';
 
 import {
   TableRow,
@@ -40,7 +41,7 @@ let StyledTableRowColumn = styled(TableHeaderColumn)`
 
 let FieldDiv = styled.div`
     float: right;
-    margin-top: -70px;
+    margin-top: -65px;
     color: rgb(23, 196, 187);
     margin-right: -8px;
     
@@ -167,12 +168,28 @@ export default class EditLayer extends React.Component {
           <MenuItem
             primaryText="编辑"
             onClick={() => {
-              this.setState({
-                showFieldSetting: true,
-                fieldConfig: null,
-                field: Object.assign({}, field),
-                resource: resource
+              this.setState({fieldConfig: null}, () => {
+                this.setState({
+                  showFieldSetting: true,
+                  fieldConfig: null,
+                  field: Object.assign({}, field),
+                  resource: resource
+                });
               });
+            }}
+          />
+          <MenuItem
+            primaryText="自定义显示"
+            onClick={() => {
+              this.setState({fieldConfig: null}, () => {
+                this.setState({
+                  showLookupModal: true,
+                  fieldConfig: null,
+                  field: Object.assign({}, field),
+                  resource: resource
+                });
+              });
+
             }}
           />
           <MenuItem primaryText="创建计算字段"/>
@@ -348,6 +365,18 @@ export default class EditLayer extends React.Component {
         }}
       >
       </FieldSetting>
+      <Lookup
+        open={this.state && this.state.showLookupModal}
+        field={this.state.field}
+        resource={this.state.resource}
+        onSave={(field, resource) => {
+          let layer = Utils.updateField(this.state.layer, field, resource);
+          this.setState({showLookupModal: false, layer: layer});
+        }}
+        onClose={() => {
+          this.setState({showLookupModal: false});
+        }}
+      />
     </div>
   }
 }

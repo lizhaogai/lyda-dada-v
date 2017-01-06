@@ -34,7 +34,7 @@ export default class FieldSetting extends React.Component {
                          this.props.onSave(this.state.field, this.state.resource);
                        }}
                      >确定</FlatButton>]}
-                   title="字段配置"
+                   title={"配置字段 " + (this.state.field && this.state.field.columnName)}
     >
       <TextField
         hintText="字段名称"
