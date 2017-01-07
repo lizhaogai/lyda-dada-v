@@ -172,7 +172,7 @@ export default class LayerSave extends React.Component {
         }}/>
       </Tabs>
 
-      <Table style={{marginTop: 15, marginBottom: 15}}  selectable={false}>
+      <Table style={{marginTop: 15, marginBottom: 15}} selectable={false}>
         <TableHeader
           displaySelectAll={false}
           adjustForCheckbox={false}>
@@ -187,7 +187,7 @@ export default class LayerSave extends React.Component {
             <TableHeaderColumn></TableHeaderColumn>
           </TableRow>
         </TableHeader>
-        <TableBody  displayRowCheckbox={false}>
+        <TableBody displayRowCheckbox={false}>
           {((this.state.join && this.state.join.on) || []).map((joinOn, index) => {
             return <TableRow key={index + '_join_on'}>
               <TableRowColumn><FormControl

@@ -14,6 +14,7 @@ import LayerSave from './LayerSave';
 import JoinSetting from './JoinSetting';
 import Utils from './utils';
 import Lookup from './Lookup';
+import CalculateField from './CalculateField';
 
 import {
   TableRow,
@@ -121,7 +122,7 @@ export default class EditLayer extends React.Component {
           backgroundColor: 'rgb(240, 240, 240)'
         }}
       >
-        <div style={{fontSize: '0.75em', color: 'rgb(23, 196, 187)', padding: '0.25em'}}>{getTypeIcon(field.type)}</div>
+        <div style={{fontSize: '0.75em', color: 'rgb(23, 196, 187)', padding: '0.25em'}}>{getTypeIcon(field)}</div>
         <div style={{
           padding: '0.25em',
           textOverflow: 'ellipsis',
@@ -135,14 +136,14 @@ export default class EditLayer extends React.Component {
           whiteSpace: 'nowrap',
           overflow: 'hidden'
         }}>{field.label || field.name}</div>
-        {this.renderFieldConfig(resource, field)}
+        {this.renderFieldConfig(resource, field, index)}
       </StyledTableRowColumn>
     });
 
     return <TableRow>{cols}</TableRow>;
   }
 
-  renderFieldConfig(resource, field) {
+  renderFieldConfig(resource, field, index) {
     return <FieldDiv className="field-config">
       <FaCog
         onClick={(e) => {
@@ -169,16 +170,27 @@ export default class EditLayer extends React.Component {
             primaryText="编辑"
             onClick={() => {
               this.setState({fieldConfig: null}, () => {
-                this.setState({
-                  showFieldSetting: true,
-                  fieldConfig: null,
-                  field: Object.assign({}, field),
-                  resource: resource
-                });
+                if (!field.expression) {
+                  this.setState({
+                    showFieldSetting: true,
+                    fieldConfig: null,
+                    field: Object.assign({}, field),
+                    resource: resource
+                  });
+                } else {
+                  this.setState({
+                    showCalculateFieldModal: true,
+                    fieldConfig: null,
+                    field: Object.assign({}, field),
+                    resource: resource,
+                    layer: this.state.layer,
+                    editCalculateField: true
+                  });
+                }
               });
             }}
           />
-          <MenuItem
+          {!field.expression ? <MenuItem
             primaryText="自定义显示"
             onClick={() => {
               this.setState({fieldConfig: null}, () => {
@@ -191,8 +203,31 @@ export default class EditLayer extends React.Component {
               });
 
             }}
-          />
-          <MenuItem primaryText="创建计算字段"/>
+          /> : null}
+          <MenuItem
+            primaryText="创建计算字段"
+            onClick={() => {
+              this.setState({fieldConfig: null}, () => {
+                this.setState({
+                  showCalculateFieldModal: true,
+                  fieldConfig: null,
+                  field: Object.assign({}, field),
+                  resource: resource,
+                  layer: this.state.layer,
+                  editCalculateField: false
+                });
+              });
+            }}/>
+
+          {field.expression ? <MenuItem
+            primaryText="删除"
+            onClick={() => {
+              this.setState({fieldConfig: null}, () => {
+                let layer = this.state.layer;
+                layer.fields.splice(index, 1);
+                this.setState({layer: layer});
+              });
+            }}/> : null}
           <MenuItem primaryText="描述"/>
         </Menu>
       </Popover>
@@ -377,17 +412,58 @@ export default class EditLayer extends React.Component {
           this.setState({showLookupModal: false});
         }}
       />
+      <CalculateField
+        open={this.state && this.state.showCalculateFieldModal}
+        field={this.state.field}
+        resource={this.state.resource}
+        layer={this.state.layer}
+        editMode={this.state.editCalculateField}
+        onSave={(isEdit, preName, field, resource) => {
+          if (preName != field.name) {
+            if (Utils.verifyFieldName(this.state.layer, field)) {
+              alert('字段名: ' + field.name + ' 已存在, 请修改');
+              return;
+            }
+          }
+          let layer = this.state.layer;
+          if (isEdit) {
+            let _index = -1;
+            let _field = layer.fields.find((item, index) => {
+              if (item.name == preName) {
+                _index = index;
+              }
+
+              return item.name == preName;
+            });
+            _field = Object.assign(_field, field);
+            layer.fields[_index] = _field;
+            this.setState({layer: layer});
+          } else {
+            layer.fields.push(field);
+            this.setState({layer: layer});
+          }
+          this.setState({showCalculateFieldModal: false});
+        }}
+        onClose={() => {
+          this.setState({showCalculateFieldModal: false});
+        }}
+      />
     </div>
   }
 }
 
-function getTypeIcon(type) {
+function getTypeIcon(field) {
+  let type = field.type;
+  let pre = '';
+  if (field.expression) {
+    pre = '='
+  }
   if (type.toLowerCase() == 'number') {
-    return <div>#</div>
+    return <div>{pre}#</div>
   } else if (type.toLowerCase() == 'string') {
-    return <div>Abc</div>
+    return <div>{pre}Abc</div>
   } else if (type.toLowerCase() == 'date') {
-    return <FaCalendar />
+    return <div>{pre}<FaCalendar /></div>
   }
 }
 

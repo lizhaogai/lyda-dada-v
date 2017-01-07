@@ -99,6 +99,7 @@ export default class Lookup extends React.Component {
               <TableHeaderColumn
                 style={{borderBottom: 0}}>显示值</TableHeaderColumn>
               <TableHeaderColumn style={{borderBottom: 0}}></TableHeaderColumn>
+              <TableHeaderColumn style={{textAlign: 'right'}}>操作</TableHeaderColumn>
             </TableRow>
           </TableHeader>
           <TableBody displayRowCheckbox={false}>
@@ -111,10 +112,11 @@ export default class Lookup extends React.Component {
                   <TableRowColumn>
                     <span>{lookupData[key]}</span>
                   </TableRowColumn>
-                  <TableRowColumn>
+                  <TableRowColumn style={{textAlign: 'right'}}>
                 <span
                   style={{
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+
                   }}
                   onClick={ () => {
                     let field = this.state.field;
@@ -144,10 +146,10 @@ export default class Lookup extends React.Component {
                            }}
                 />
               </TableRowColumn>
-              <TableRowColumn>
+              <TableRowColumn style={{textAlign: 'right'}}>
                 <span
                   style={{
-                    cursor: 'pointer'
+                    cursor: 'pointer',
                   }}
                   onClick={ () => {
                     let field = this.state.field;
