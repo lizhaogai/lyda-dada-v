@@ -27,7 +27,8 @@ import {
   MenuItem,
   Menu,
   TableHeader,
-  TableHeaderColumn
+  TableHeaderColumn,
+  Checkbox
 } from 'material-ui';
 
 let StyledTableRowColumn = styled(TableHeaderColumn)`
@@ -56,7 +57,8 @@ let FieldDiv = styled.div`
 export default class EditLayer extends React.Component {
 
   state = {
-    layer: {schema: {resources: [], joins: []}}
+    layer: {schema: {resources: [], joins: []}},
+    showHiddenField: true
   };
 
   componentWillMount() {
@@ -112,6 +114,9 @@ export default class EditLayer extends React.Component {
     let fields = (layer && layer.fields) || [];
 
     let cols = fields.map((field, index) => {
+      if (!this.state.showHiddenField && field.hidden) {
+        return;
+      }
       let resource = Utils.getResource(layer, field.resourceId);
       return <StyledTableRowColumn
         key={index}
@@ -228,7 +233,7 @@ export default class EditLayer extends React.Component {
                 this.setState({layer: layer});
               });
             }}/> : null}
-          <MenuItem primaryText="描述"/>
+          {/*<MenuItem primaryText="描述"/>*/}
         </Menu>
       </Popover>
     </FieldDiv>
@@ -239,8 +244,11 @@ export default class EditLayer extends React.Component {
       return this.state.data.map((item, index) => {
         let layer = this.state.layer;
         let fields = (layer && layer.fields) || [];
-        let cols = fields.map((field, index) => (
-          <TableRowColumn
+        let cols = fields.map((field, index) => {
+          if (!this.state.showHiddenField && field.hidden) {
+            return;
+          }
+          return <TableRowColumn
             key={index}
             style={{
               width: 100,
@@ -250,7 +258,7 @@ export default class EditLayer extends React.Component {
             }}
           >{item[field.name]}
           </TableRowColumn>
-        ));
+        });
 
         return <TableRow key={index + '_data'}>{cols}</TableRow>;
       });
@@ -258,7 +266,7 @@ export default class EditLayer extends React.Component {
   }
 
   render() {
-    return <div>
+    return <div style={{marginLeft: '14em',}}>
       <div style={{
         position: 'fixed',
         top: 0,
@@ -284,7 +292,6 @@ export default class EditLayer extends React.Component {
       </div>
       <Droppable
         style={{
-          marginLeft: '14em',
           marginTop: '3.5em'
         }}
         types={['collection']}
@@ -321,8 +328,38 @@ export default class EditLayer extends React.Component {
         />
       </Droppable>
 
-      <div style={{marginLeft: '14em', marginTop: '1em', marginBottom: 0}}>
+      <div style={{width: '100%', marginTop: '0.75em', display: 'flex'}}>
+        <Checkbox
+          label="显示隐藏字段"
+          style={{width: '11em'}}
+          checked={(this.state.showHiddenField)}
+          onCheck={(e) => {
+            this.setState({showHiddenField: !this.state.showHiddenField});
+          }}
+        />
+        <FlatButton
+          style={{marginTop: '-0.4em'}}
+          onClick={() => {
+            let layer = this.state.layer;
+            let errors = validator.layerValidator(layer);
+            if (errors.length > 0) {
+              alert(errors);
+              return;
+            }
+            this.context.client['Report'].query({
+              layer: layer,
+              fiters: [],
+              orders: [],
+              fields: layer.fields
+            }).then((data) => {
+              this.setState({data: data});
+            });
+          }}>更新数据</FlatButton>
+      </div>
+
+      <div>
         <Table
+          bodyStyle={{overflow: 'visible'}}
           style={{width: '100%'}}
         >
           <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
@@ -335,25 +372,6 @@ export default class EditLayer extends React.Component {
           </TableBody>
         </Table>
       </div>
-
-      {!this.state.data || this.state.data.length == 0 ? <div style={{marginTop: '1em', textAlign: 'center'}}>
-        <FlatButton onClick={() => {
-          let layer = this.state.layer;
-          let errors = validator.layerValidator(layer);
-          if (errors.length > 0) {
-            alert(errors);
-            return;
-          }
-          this.context.client['Report'].query({
-            layer: layer,
-            fiters: [],
-            orders: [],
-            fields: layer.fields
-          }).then((data) => {
-            this.setState({data: data});
-          });
-        }}>更新数据</FlatButton>
-      </div> : null}
 
       <JoinSetting
         open={this.state.showRelationSettingModal || false}

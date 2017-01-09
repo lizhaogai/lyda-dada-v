@@ -1,7 +1,7 @@
 import React from 'react';
-import {Dialog, FlatButton, TextField, Checkbox} from 'material-ui';
+import {Dialog, FlatButton, TextField} from 'material-ui';
 
-export default class CaculateField extends React.Component {
+export default class CalculateField extends React.Component {
 
   state = {};
 
@@ -129,7 +129,7 @@ export default class CaculateField extends React.Component {
   }
 }
 
-CaculateField.propTypes = {
+CalculateField.propTypes = {
   open: React.PropTypes.bool,
   field: React.PropTypes.object,
   resource: React.PropTypes.object,
